@@ -27,6 +27,52 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
+        /* Estilos para el modal */
+        .modal {
+            display: none; /* Oculto por defecto */
+            position: fixed; /* Posición fija */
+            z-index: 1000; /* Siempre encima */
+            left: 0;
+            top: 0;
+            width: 100%; /* Ancho completo */
+            height: 100%; /* Alto completo */
+            overflow: auto; /* Habilitar scroll si es necesario */
+            background-color: rgba(0,0,0,0.4); /* Fondo semi-transparente */
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 2rem;
+            border-radius: 0.75rem; /* rounded-lg */
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+        @keyframes animatetop {
+            from {top: -300px; opacity: 0}
+            to {top: 0; opacity: 1}
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="antialiased text-gray-800">
@@ -44,9 +90,9 @@
             <!-- Enlaces de Navegación (para escritorio) -->
             <div class="hidden md:flex space-x-6">
                 <a href="#" class="text-gray-600 hover:text-blue-600 font-medium">Inicio</a>
-                <a href="#categorias" class="text-gray-600 hover:text-blue-600 font-medium">Categorías</a>
+                <a href="#categorias-section" class="text-gray-600 hover:text-blue-600 font-medium">Categorías</a>
                 <a href="#" class="text-gray-600 hover:text-blue-600 font-medium">Ofertas</a>
-                <a href="#" class="text-gray-600 hover:text-blue-600 font-medium">Contacto</a>
+                <a href="#contacto-section" class="text-gray-600 hover:text-blue-600 font-medium">Contacto</a>
             </div>
 
             <!-- Carrito de Compras / Botón de Perfil (para escritorio) -->
@@ -55,7 +101,7 @@
                     <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">3</span>
                 </button>
-                <button class="flex items-center space-x-2 bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition-colors">
+                <button onclick="openLoginModal()" class="flex items-center space-x-2 bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                     <span>Mi Cuenta</span>
                 </button>
@@ -70,10 +116,10 @@
         <!-- Menú Móvil (oculto por defecto) -->
         <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-2 bg-white border-t border-gray-200">
             <a href="#" class="block text-gray-600 hover:text-blue-600 font-medium py-2 px-3 rounded-md">Inicio</a>
-            <a href="#categorias" class="block text-gray-600 hover:text-blue-600 font-medium py-2 px-3 rounded-md">Categorías</a>
+            <a href="#categorias-section" class="block text-gray-600 hover:text-blue-600 font-medium py-2 px-3 rounded-md">Categorías</a>
             <a href="#" class="block text-gray-600 hover:text-blue-600 font-medium py-2 px-3 rounded-md">Ofertas</a>
-            <a href="#" class="block text-gray-600 hover:text-blue-600 font-medium py-2 px-3 rounded-md">Contacto</a>
-            <button class="w-full text-left flex items-center space-x-2 bg-blue-600 text-white py-2 px-3 rounded-md hover:bg-blue-700 transition-colors">
+            <a href="#contacto-section" class="block text-gray-600 hover:text-blue-600 font-medium py-2 px-3 rounded-md">Contacto</a>
+            <button onclick="openLoginModal()" class="w-full text-left flex items-center space-x-2 bg-blue-600 text-white py-2 px-3 rounded-md hover:bg-blue-700 transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                 <span>Mi Cuenta</span>
             </button>
@@ -93,7 +139,7 @@
             <p class="text-xl md:text-2xl mb-8 opacity-90 max-w-2xl mx-auto">
                 La mejor tecnología al alcance de tu mano, con precios que te encantarán y envío directo a tu hogar.
             </p>
-            <a href="#categorias" class="inline-block bg-white text-blue-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-full text-lg transition-colors shadow-lg">
+            <a href="#categorias-section" class="inline-block bg-white text-blue-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-full text-lg transition-colors shadow-lg">
                 Explorar Categorías
             </a>
         </div>
@@ -211,6 +257,38 @@
         </div>
     </section>
 
+    <!-- Sección de Contacto -->
+    <section id="contacto-section" class="bg-gray-100 py-16 px-4">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-8">Contáctanos</h2>
+            <p class="text-lg text-gray-700 mb-4">¿Tienes alguna pregunta o necesitas ayuda? Contáctanos a través de:</p>
+            <a href="mailto:eze_rode@hotmail.com" class="text-blue-600 hover:underline text-xl font-semibold">eze_rode@hotmail.com</a>
+            <p class="text-gray-600 mt-4">¡Estaremos encantados de atenderte!</p>
+        </div>
+    </section>
+
+    <!-- Nueva Sección: ¿En qué estás interesado? -->
+    <section id="interest-form-section" class="bg-white py-16 px-4">
+        <div class="container mx-auto text-center max-w-2xl">
+            <h2 class="text-4xl font-bold mb-8">¿En qué estás interesado?</h2>
+            <p class="text-lg text-gray-700 mb-6">Déjanos tus datos y te ayudaremos a encontrar el producto perfecto para ti.</p>
+            <div class="space-y-4 text-left">
+                <div>
+                    <label for="interestName" class="block text-gray-700 text-sm font-bold mb-2">Nombre:</label>
+                    <input type="text" id="interestName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Tu Nombre">
+                </div>
+                <div>
+                    <label for="interestEmail" class="block text-gray-700 text-sm font-bold mb-2">Correo Electrónico:</label>
+                    <input type="email" id="interestEmail" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="tu@ejemplo.com">
+                </div>
+                <button onclick="openRegisterModalFromInterest()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg w-full transition-colors">
+                    ¡Quiero Registrarme!
+                </button>
+                <p class="text-center text-sm text-gray-600 mt-2">Al hacer clic, serás dirigido al formulario de registro.</p>
+            </div>
+        </div>
+    </section>
+
     <!-- Sección de Beneficios / Por qué elegirnos -->
     <section class="bg-blue-50 py-16 px-4">
         <div class="container mx-auto text-center">
@@ -252,6 +330,53 @@
             </div>
         </div>
     </footer>
+
+    <!-- Modal de Login/Registro -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeLoginModal()">&times;</span>
+            <h2 class="text-3xl font-bold text-center mb-6">Mi Cuenta</h2>
+
+            <!-- Pestañas de Login/Registro -->
+            <div class="flex justify-center mb-6">
+                <button id="loginTab" class="py-2 px-4 border-b-2 border-blue-600 text-blue-600 font-semibold" onclick="showForm('login')">Iniciar Sesión</button>
+                <button id="registerTab" class="py-2 px-4 border-b-2 border-gray-300 text-gray-600 font-semibold" onclick="showForm('register')">Registrarse</button>
+            </div>
+
+            <!-- Formulario de Login -->
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label for="loginEmail" class="block text-gray-700 text-sm font-bold mb-2">Correo Electrónico:</label>
+                    <input type="email" id="loginEmail" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="tu@ejemplo.com">
+                </div>
+                <div>
+                    <label for="loginPassword" class="block text-gray-700 text-sm font-bold mb-2">Contraseña:</label>
+                    <input type="password" id="loginPassword" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" placeholder="********">
+                </div>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg w-full transition-colors">Iniciar Sesión</button>
+                <p class="text-center text-sm text-gray-600 mt-2">Funcionalidad de login requiere un backend.</p>
+            </form>
+
+            <!-- Formulario de Registro -->
+            <form id="registerForm" class="space-y-4 hidden">
+                <div>
+                    <label for="registerName" class="block text-gray-700 text-sm font-bold mb-2">Nombre:</label>
+                    <input type="text" id="registerName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Tu Nombre">
+                </div>
+                <div>
+                    <label for="registerEmail" class="block text-gray-700 text-sm font-bold mb-2">Correo Electrónico:</label>
+                    <input type="email" id="registerEmail" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="tu@ejemplo.com">
+                </div>
+                <div>
+                    <label for="registerPassword" class="block text-gray-700 text-sm font-bold mb-2">Contraseña:</label>
+                    <input type="password" id="registerPassword" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" placeholder="********">
+                </div>
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full transition-colors">Registrarse</button>
+                <p class="text-center text-sm text-gray-600 mt-2">Funcionalidad de registro requiere un backend.</p>
+            </form>
+        </div>
+    </div>
+
 
     <script>
         // Función para alternar el menú móvil
@@ -369,6 +494,67 @@
             // Mostrar la sección de categorías
             categoriesSection.classList.remove('hidden');
         }
+
+        // Lógica del Modal de Login/Registro
+        const loginModal = document.getElementById('loginModal');
+        const loginTab = document.getElementById('loginTab');
+        const registerTab = document.getElementById('registerTab');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+
+        function openLoginModal() {
+            loginModal.style.display = 'flex'; // Usar flex para centrar
+            showForm('login'); // Mostrar por defecto el formulario de login
+        }
+
+        function closeLoginModal() {
+            loginModal.style.display = 'none';
+        }
+
+        function showForm(formType) {
+            if (formType === 'login') {
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+                loginTab.classList.add('border-blue-600', 'text-blue-600');
+                loginTab.classList.remove('border-gray-300', 'text-gray-600');
+                registerTab.classList.remove('border-blue-600', 'text-blue-600');
+                registerTab.classList.add('border-gray-300', 'text-gray-600');
+            } else {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+                registerTab.classList.add('border-blue-600', 'text-blue-600');
+                registerTab.classList.remove('border-gray-300', 'text-gray-600');
+                loginTab.classList.remove('border-blue-600', 'text-blue-600');
+                loginTab.classList.add('border-gray-300', 'text-gray-600');
+            }
+        }
+
+        // Función para abrir el modal y mostrar el formulario de registro directamente desde la sección "Interesado"
+        function openRegisterModalFromInterest() {
+            openLoginModal(); // Primero abre el modal
+            showForm('register'); // Luego cambia a la pestaña de registro
+        }
+
+
+        // Cerrar el modal haciendo clic fuera de él
+        window.onclick = function(event) {
+            if (event.target == loginModal) {
+                closeLoginModal();
+            }
+        }
+
+        // Prevenir el envío de formularios simulados
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Funcionalidad de inicio de sesión no implementada. Necesita un backend para guardar y verificar usuarios.');
+            // Aquí iría la lógica real de inicio de sesión
+        });
+
+        registerForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Funcionalidad de registro no implementada. Necesita un backend para crear usuarios.');
+            // Aquí iría la lógica real de registro
+        });
     </script>
 </body>
 </html>
