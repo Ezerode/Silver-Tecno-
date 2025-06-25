@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silver Tecno - Tu Tienda Tecnológica</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        .text-gradient {
+            background-image: linear-gradient(to right, #4ade80, #3b82f6); /* Green to Blue */
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .category-card, .product-card-item { /* Unified styling for cards */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border-radius: 0.75rem; /* rounded-lg */
+            overflow: hidden;
+        }
+        .category-card:hover, .product-card-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <!-- Navegación -->
+    <header class="bg-white shadow-sm py-4">
+        <nav class="container mx-auto px-4 flex justify-between items-center">
+            <!-- Logo y Nombre del Negocio -->
+            <a href="#" class="flex items-center space-x-2">
+                <!-- Simple placeholder for the logo, replace with actual SVG/Image -->
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9.75 12H12.75L12.75 17M14.25 17L14.25 12H17.25L17.25 17M6 6H18C19.1046 6 20 6.89543 20 8V16C20 17.1046 19.1046 18 18 18H6C4.89543 18 4 17.1046 4 16V8C4 6.89543 4.89543 6 6 6Z"></path></svg>
+                <span class="text-2xl font-bold text-gray-900">Silver Tecno</span>
+            </a>
+
+            <!-- Enlaces de Navegación (para escritorio) -->
+            <div class="hidden md:flex space-x-6">
+                <a href="#" class="text-gray-600 hover:text-blue-600 font-medium">Inicio</a>
+                <a href="#categorias" class="text-gray-600 hover:text-blue-600 font-medium">Categorías</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 font-medium">Ofertas</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 font-medium">Contacto</a>
+            </div>
+
+            <!-- Carrito de Compras / Botón de Perfil (para escritorio) -->
+            <div class="hidden md:flex items-center space-x-4">
+                <button class="relative p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">3</span>
+                </button>
+                <button class="flex items-center space-x-2 bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <span>Mi Cuenta</span>
+                </button>
+            </div>
+
+            <!-- Botón de Menú Móvil -->
+            <button class="md:hidden p-2 rounded-full hover:bg-gray-100 transition-colors" onclick="toggleMobileMenu()">
+                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </nav>
+
+        <!-- Menú Móvil (oculto por defecto) -->
+        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-2 bg-white border-t border-gray-200">
+            <a href="#" class="block text-gray-600 hover:text-blue-600 font-medium py-2 px-3 rounded-md">Inicio</a>
+            <a href="#categorias" class="block text-gray-600 hover:text-blue-600 font-medium py-2 px-3 rounded-md">Categorías</a>
+            <a href="#" class="block text-gray-600 hover:text-blue-600 font-medium py-2 px-3 rounded-md">Ofertas</a>
+            <a href="#" class="block text-gray-600 hover:text-blue-600 font-medium py-2 px-3 rounded-md">Contacto</a>
+            <button class="w-full text-left flex items-center space-x-2 bg-blue-600 text-white py-2 px-3 rounded-md hover:bg-blue-700 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                <span>Mi Cuenta</span>
+            </button>
+            <button class="w-full text-left relative flex items-center space-x-2 text-gray-600 hover:text-blue-600 py-2 px-3 rounded-md hover:bg-gray-100 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <span>Carrito (<span class="font-bold">3</span>)</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Sección Hero -->
+    <section class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-20 px-4">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+                Descubre el Futuro con <span class="text-yellow-300">Silver Tecno</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 opacity-90 max-w-2xl mx-auto">
+                La mejor tecnología al alcance de tu mano, con precios que te encantarán y envío directo a tu hogar.
+            </p>
+            <a href="#categorias" class="inline-block bg-white text-blue-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-full text-lg transition-colors shadow-lg">
+                Explorar Categorías
+            </a>
+        </div>
+    </section>
+
+    <!-- Sección de Categorías de Productos -->
+    <section id="categorias-section" class="py-16 px-4">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12">Explora Nuestras Categorías</h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Categoría: Mouses -->
+                <div class="bg-white rounded-lg shadow-md category-card text-center p-6">
+                    <img src="https://placehold.co/400x300/4ade80/000000?text=Mouse" alt="Imagen de un Mouse" class="w-full h-40 object-cover mb-4 rounded-lg">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-2">Mouses</h3>
+                    <p class="text-gray-600 text-sm mb-4">Precisión y comodidad para tu escritorio. Marcas destacadas: Philips.</p>
+                    <button onclick="showCategoryProducts('Mouses')" class="inline-block bg-blue-600 text-white py-2 px-5 rounded-full hover:bg-blue-700 transition-colors font-medium">Ver Mouses</button>
+                </div>
+
+                <!-- Categoría: Teclados -->
+                <div class="bg-white rounded-lg shadow-md category-card text-center p-6">
+                    <img src="https://placehold.co/400x300/3b82f6/ffffff?text=Teclado" alt="Imagen de un Teclado" class="w-full h-40 object-cover mb-4 rounded-lg">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-2">Teclados</h3>
+                    <p class="text-gray-600 text-sm mb-4">Experiencia de escritura y juego superior. Marcas destacadas: Philips.</p>
+                    <button onclick="showCategoryProducts('Teclados')" class="inline-block bg-blue-600 text-white py-2 px-5 rounded-full hover:bg-blue-700 transition-colors font-medium">Ver Teclados</button>
+                </div>
+
+                <!-- Categoría: Parlantes -->
+                <div class="bg-white rounded-lg shadow-md category-card text-center p-6">
+                    <img src="https://placehold.co/400x300/f59e0b/ffffff?text=Parlante" alt="Imagen de un Parlante" class="w-full h-40 object-cover mb-4 rounded-lg">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-2">Parlantes</h3>
+                    <p class="text-gray-600 text-sm mb-4">Sonido envolvente para tu entretenimiento. Marcas destacadas: Trust, H.P.</p>
+                    <button onclick="showCategoryProducts('Parlantes')" class="inline-block bg-blue-600 text-white py-2 px-5 rounded-full hover:bg-blue-700 transition-colors font-medium">Ver Parlantes</button>
+                </div>
+
+                <!-- Categoría: Auriculares -->
+                <div class="bg-white rounded-lg shadow-md category-card text-center p-6">
+                    <img src="https://placehold.co/400x300/ef4444/ffffff?text=Auricular" alt="Imagen de un Auricular" class="w-full h-40 object-cover mb-4 rounded-lg">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-2">Auriculares</h3>
+                    <p class="text-gray-600 text-sm mb-4">Inmersión total en audio, con o sin cable. Marcas destacadas: H.P, Trust Gaming.</p>
+                    <button onclick="showCategoryProducts('Auriculares')" class="inline-block bg-blue-600 text-white py-2 px-5 rounded-full hover:bg-blue-700 transition-colors font-medium">Ver Auriculares</button>
+                </div>
+
+                <!-- Categoría: Sillas Gamer -->
+                <div class="bg-white rounded-lg shadow-md category-card text-center p-6">
+                    <img src="https://placehold.co/400x300/6b7280/ffffff?text=Silla+Gamer" alt="Imagen de una Silla Gamer" class="w-full h-40 object-cover mb-4 rounded-lg">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-2">Sillas Gamer</h3>
+                    <p class="text-gray-600 text-sm mb-4">Comodidad ergonómica para largas sesiones de juego. Marcas destacadas: Alley G, Trust Gaming.</p>
+                    <button onclick="showCategoryProducts('Sillas Gamer')" class="inline-block bg-blue-600 text-white py-2 px-5 rounded-full hover:bg-blue-700 transition-colors font-medium">Ver Sillas Gamer</button>
+                </div>
+
+                <!-- Categoría: Fuentes -->
+                <div class="bg-white rounded-lg shadow-md category-card text-center p-6">
+                    <img src="https://placehold.co/400x300/9ca3af/ffffff?text=Fuente" alt="Imagen de una Fuente de Poder" class="w-full h-40 object-cover mb-4 rounded-lg">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-2">Fuentes</h3>
+                    <p class="text-gray-600 text-sm mb-4">Potencia estable y segura para tus componentes. Marcas destacadas: Jalatec.</p>
+                    <button onclick="showCategoryProducts('Fuentes')" class="inline-block bg-blue-600 text-white py-2 px-5 rounded-full hover:bg-blue-700 transition-colors font-medium">Ver Fuentes</button>
+                </div>
+
+                <!-- Categoría: Gabinetes -->
+                <div class="bg-white rounded-lg shadow-md category-card text-center p-6">
+                    <img src="https://placehold.co/400x300/5b21b6/ffffff?text=Gabinete" alt="Imagen de un Gabinete" class="w-full h-40 object-cover mb-4 rounded-lg">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-2">Gabinetes</h3>
+                    <p class="text-gray-600 text-sm mb-4">El hogar perfecto para tus componentes, con estilo. Marcas destacadas: Jalatec.</p>
+                    <button onclick="showCategoryProducts('Gabinetes')" class="inline-block bg-blue-600 text-white py-2 px-5 rounded-full hover:bg-blue-700 transition-colors font-medium">Ver Gabinetes</button>
+                </div>
+
+                <!-- Categoría: Mini PC -->
+                <div class="bg-white rounded-lg shadow-md category-card text-center p-6">
+                    <img src="https://placehold.co/400x300/065f46/ffffff?text=Mini+PC" alt="Imagen de un Mini PC" class="w-full h-40 object-cover mb-4 rounded-lg">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-2">Mini PC</h3>
+                    <p class="text-gray-600 text-sm mb-4">Potencia compacta para cualquier espacio. Marcas destacadas: Jalatec.</p>
+                    <button onclick="showCategoryProducts('Mini PC')" class="inline-block bg-blue-600 text-white py-2 px-5 rounded-full hover:bg-blue-700 transition-colors font-medium">Ver Mini PC</button>
+                </div>
+
+                <!-- Nueva Categoría: Memorias -->
+                <div class="bg-white rounded-lg shadow-md category-card text-center p-6">
+                    <img src="https://placehold.co/400x300/10b981/ffffff?text=Memorias" alt="Imagen de Memorias RAM" class="w-full h-40 object-cover mb-4 rounded-lg">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-2">Memorias</h3>
+                    <p class="text-gray-600 text-sm mb-4">Velocidad y capacidad para tu sistema. Marcas destacadas: Philips, Team, Kingston.</p>
+                    <button onclick="showCategoryProducts('Memorias')" class="inline-block bg-blue-600 text-white py-2 px-5 rounded-full hover:bg-blue-700 transition-colors font-medium">Ver Memorias</button>
+                </div>
+
+                <!-- Nueva Categoría: Discos -->
+                <div class="bg-white rounded-lg shadow-md category-card text-center p-6">
+                    <img src="https://placehold.co/400x300/8b5cf6/ffffff?text=Discos" alt="Imagen de Discos SSD/HDD" class="w-full h-40 object-cover mb-4 rounded-lg">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-2">Discos</h3>
+                    <p class="text-gray-600 text-sm mb-4">Almacenamiento rápido y seguro. Marcas destacadas: Philips, Team, Kingston.</p>
+                    <button onclick="showCategoryProducts('Discos')" class="inline-block bg-blue-600 text-white py-2 px-5 rounded-full hover:bg-blue-700 transition-colors font-medium">Ver Discos</button>
+                </div>
+
+                <!-- Nueva Categoría: Webcams -->
+                <div class="bg-white rounded-lg shadow-md category-card text-center p-6">
+                    <img src="https://placehold.co/400x300/f97316/ffffff?text=Webcam" alt="Imagen de una Webcam" class="w-full h-40 object-cover mb-4 rounded-lg">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-2">Webcams</h3>
+                    <p class="text-gray-600 text-sm mb-4">Conéctate con claridad. Marcas destacadas: Philips.</p>
+                    <button onclick="showCategoryProducts('Webcams')" class="inline-block bg-blue-600 text-white py-2 px-5 rounded-full hover:bg-blue-700 transition-colors font-medium">Ver Webcams</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Listado de Productos (Inicialmente oculta) -->
+    <section id="product-listing-section" class="py-16 px-4 hidden">
+        <div class="container mx-auto">
+            <button onclick="goBackToCategories()" class="mb-8 flex items-center space-x-2 text-blue-600 hover:text-blue-800 font-medium">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span>Volver a Categorías</span>
+            </button>
+            <h2 id="product-listing-title" class="text-4xl font-bold text-center mb-12"></h2>
+
+            <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Los productos se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Beneficios / Por qué elegirnos -->
+    <section class="bg-blue-50 py-16 px-4">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12">¿Por Qué Elegir Silver Tecno?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <svg class="w-16 h-16 mx-auto mb-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.007 12.007 0 002.944 12c.084 1.343.376 2.628.887 3.828A11.955 11.955 0 0112 21.056c1.343-.084 2.628-.376 3.828-.887a11.955 11.955 0 013.04-8.618A12.007 12.007 0 0021.056 12a11.955 11.955 0 01-3.04-8.618z"></path></svg>
+                    <h3 class="text-xl font-semibold mb-3">Calidad Garantizada</h3>
+                    <p class="text-gray-600">Solo trabajamos con las mejores marcas y productos, asegurando durabilidad y rendimiento.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <svg class="w-16 h-16 mx-auto mb-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l-6 6h4v4l6-6h-4V7z"></path></svg>
+                    <h3 class="text-xl font-semibold mb-3">Envío Rápido y Seguro</h3>
+                    <p class="text-gray-600">Recibe tus productos en tiempo récord y con la seguridad que mereces.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <svg class="w-16 h-16 mx-auto mb-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <h3 class="text-xl font-semibold mb-3">Atención al Cliente Premium</h3>
+                    <p class="text-gray-600">Nuestro equipo está listo para ayudarte en cada paso de tu compra.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10 px-4">
+        <div class="container mx-auto text-center md:flex md:justify-between md:items-center">
+            <div class="mb-6 md:mb-0">
+                <h3 class="text-xl font-bold mb-2">Silver Tecno</h3>
+                <p class="text-gray-400">Tu destino para la tecnología más avanzada.</p>
+            </div>
+            <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8">
+                <a href="#" class="text-gray-400 hover:text-white">Política de Privacidad</a>
+                <a href="#" class="text-gray-400 hover:text-white">Términos y Condiciones</a>
+                <a href="#" class="text-gray-400 hover:text-white">Preguntas Frecuentes</a>
+            </div>
+            <div class="mt-6 md:mt-0">
+                <p class="text-gray-400">&copy; 2025 Silver Tecno. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Función para alternar el menú móvil
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Datos de productos simulados para cada categoría
+        const productsData = {
+            "Mouses": [
+                { name: "Mouse Óptico Philips SPK7101", description: "Mouse ergonómico con sensor preciso.", price: "19.99", image: "https://placehold.co/400x300/4ade80/000000?text=Mouse+Philips+1" },
+                { name: "Mouse Gamer Philips G300", description: "Alta DPI y botones programables para gaming.", price: "35.50", image: "https://placehold.co/400x300/4ade80/000000?text=Mouse+Philips+2" },
+                { name: "Mouse Inalámbrico Philips M600", description: "Conexión estable y diseño compacto.", price: "24.99", image: "https://placehold.co/400x300/4ade80/000000?text=Mouse+Philips+3" }
+            ],
+            "Teclados": [
+                { name: "Teclado Multimedia Philips C314", description: "Teclado cómodo con teclas de acceso rápido.", price: "29.99", image: "https://placehold.co/400x300/3b82f6/ffffff?text=Teclado+Philips+1" },
+                { name: "Teclado Mecánico Philips K500", description: "Switches mecánicos para respuesta rápida.", price: "79.00", image: "https://placehold.co/400x300/3b82f6/ffffff?text=Teclado+Philips+2" },
+                { name: "Teclado Inalámbrico Slim Philips", description: "Diseño ultra delgado y portátil.", price: "45.00", image: "https://placehold.co/400x300/3b82f6/ffffff?text=Teclado+Philips+3" }
+            ],
+            "Parlantes": [
+                { name: "Parlantes Trust Gaming GXT 606", description: "Sonido estéreo potente para gaming.", price: "55.00", image: "https://placehold.co/400x300/f59e0b/ffffff?text=Parlante+Trust" },
+                { name: "Parlante HP Bluetooth 300", description: "Compacto y portátil con gran sonido.", price: "40.00", image: "https://placehold.co/400x300/f59e0b/ffffff?text=Parlante+HP" }
+            ],
+            "Auriculares": [
+                { name: "Auriculares HP HyperX Cloud Stinger", description: "Comodidad y audio inmersivo para gamers.", price: "69.99", image: "https://placehold.co/400x300/ef4444/ffffff?text=Auricular+HP" },
+                { name: "Auriculares Trust Gaming GXT 322", description: "Graves potentes y micrófono flexible.", price: "49.00", image: "https://placehold.co/400x300/ef4444/ffffff?text=Auricular+Trust" }
+            ],
+            "Sillas Gamer": [
+                { name: "Silla Gamer Alley G Series X", description: "Ergonómica y ajustable para máxima comodidad.", price: "249.00", image: "https://placehold.co/400x300/6b7280/ffffff?text=Silla+Alley+G" },
+                { name: "Silla Trust Gaming GXT 707 Resto", description: "Diseño robusto y soporte lumbar premium.", price: "299.99", image: "https://placehold.co/400x300/6b7280/ffffff?text=Silla+Trust" }
+            ],
+            "Fuentes": [
+                { name: "Fuente Jalatec 600W 80 Plus Bronze", description: "Eficiencia energética y alimentación estable.", price: "75.00", image: "https://placehold.co/400x300/9ca3af/ffffff?text=Fuente+Jalatec+1" },
+                { name: "Fuente Jalatec 750W Gold Modular", description: "Alto rendimiento y gestión de cables modular.", price: "110.00", image: "https://placehold.co/400x300/9ca3af/ffffff?text=Fuente+Jalatec+2" }
+            ],
+            "Gabinetes": [
+                { name: "Gabinete Jalatec Mid Tower Pro", description: "Diseño moderno con excelente flujo de aire.", price: "85.00", image: "https://placehold.co/400x300/5b21b6/ffffff?text=Gabinete+Jalatec+1" },
+                { name: "Gabinete Jalatec RGB Full Tower", description: "Espacioso con iluminación RGB personalizable.", price: "120.00", image: "https://placehold.co/400x300/5b21b6/ffffff?text=Gabinete+Jalatec+2" }
+            ],
+            "Mini PC": [
+                { name: "Mini PC Jalatec Compacto i5", description: "Potencia para la oficina y el hogar en un tamaño reducido.", price: "450.00", image: "https://placehold.co/400x300/065f46/ffffff?text=Mini+PC+Jalatec+1" },
+                { name: "Mini PC Jalatec Gaming Ryzen", description: "Rendimiento para juegos y tareas exigentes.", price: "700.00", image: "https://placehold.co/400x300/065f46/ffffff?text=Mini+PC+Jalatec+2" }
+            ],
+            "Memorias": [
+                { name: "Memoria Philips DDR4 8GB", description: "Velocidad y fiabilidad para tu PC.", price: "30.00", image: "https://placehold.co/400x300/10b981/ffffff?text=Memoria+Philips" },
+                { name: "Memoria TeamGroup T-Force Delta RGB 16GB", description: "Diseño RGB y alto rendimiento.", price: "65.00", image: "https://placehold.co/400x300/10b981/ffffff?text=Memoria+Team" },
+                { name: "Memoria Kingston Fury Beast DDR4 32GB", description: "Capacidad extrema para las aplicaciones más exigentes.", price: "120.00", image: "https://placehold.co/400x300/10b981/ffffff?text=Memoria+Kingston" }
+            ],
+            "Discos": [
+                { name: "SSD Philips 240GB Sata III", description: "Arranque rápido y transferencia de datos veloz.", price: "45.00", image: "https://placehold.co/400x300/8b5cf6/ffffff?text=SSD+Philips" },
+                { name: "SSD TeamGroup T-Force Cardea Zero Z440 1TB NVMe", description: "Velocidades de lectura/escritura ultra rápidas.", price: "90.00", image: "https://placehold.co/400x300/8b5cf6/ffffff?text=SSD+Team" },
+                { name: "HDD Kingston 1TB USB 3.0 Externo", description: "Almacenamiento masivo y portabilidad.", price: "60.00", image: "https://placehold.co/400x300/8b5cf6/ffffff?text=HDD+Kingston" }
+            ],
+            "Webcams": [
+                { name: "Webcam Philips Full HD 1080p", description: "Videollamadas claras y nítidas.", price: "25.00", image: "https://placehold.co/400x300/f97316/ffffff?text=Webcam+Philips+1" },
+                { name: "Webcam Philips Ultra HD 4K", description: "Calidad de imagen profesional para streaming.", price: "70.00", image: "https://placehold.co/400x300/f97316/ffffff?text=Webcam+Philips+2" }
+            ]
+        };
+
+        // Función para mostrar los productos de una categoría
+        function showCategoryProducts(categoryName) {
+            const categoriesSection = document.getElementById('categorias-section');
+            const productListingSection = document.getElementById('product-listing-section');
+            const productListingTitle = document.getElementById('product-listing-title');
+            const productListDiv = document.getElementById('product-list');
+
+            // Ocultar la sección de categorías
+            categoriesSection.classList.add('hidden');
+            // Mostrar la sección de listado de productos
+            productListingSection.classList.remove('hidden');
+
+            // Actualizar el título de la sección de productos
+            productListingTitle.textContent = `Productos de ${categoryName}`;
+
+            // Limpiar la lista de productos anterior
+            productListDiv.innerHTML = '';
+
+            // Obtener los productos de la categoría seleccionada
+            const products = productsData[categoryName] || [];
+
+            // Generar y añadir las tarjetas de producto
+            if (products.length > 0) {
+                products.forEach(product => {
+                    const productCardHtml = `
+                        <div class="bg-white rounded-lg shadow-md product-card-item overflow-hidden">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded-t-lg">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2">${product.name}</h3>
+                                <p class="text-gray-600 text-sm mb-4">${product.description}</p>
+                                <div class="flex justify-between items-center mb-4">
+                                    <span class="text-2xl font-bold text-blue-600">$${product.price}</span>
+                                    <span class="text-green-500 font-semibold">En Stock</span>
+                                </div>
+                                <button class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                                    Añadir al Carrito
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    productListDiv.insertAdjacentHTML('beforeend', productCardHtml);
+                });
+            } else {
+                productListDiv.innerHTML = '<p class="text-center text-gray-600 text-lg col-span-full">No hay productos disponibles para esta categoría.</p>';
+            }
+        }
+
+        // Función para volver a la sección de categorías
+        function goBackToCategories() {
+            const categoriesSection = document.getElementById('categorias-section');
+            const productListingSection = document.getElementById('product-listing-section');
+
+            // Ocultar la sección de listado de productos
+            productListingSection.classList.add('hidden');
+            // Mostrar la sección de categorías
+            categoriesSection.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
